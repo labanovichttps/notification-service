@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+/remote-service/.gradle/
+/remote-service/build/
+/sync-notification-service/.gradle/
+/sync-notification-service/build/

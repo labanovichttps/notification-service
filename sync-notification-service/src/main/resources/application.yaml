@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: statement
+  datasource:
+    url: jdbc:postgresql://localhost:5433/taxdb
+    username: postgres
+    password: password
+  liquibase:
+    change-log: classpath:db/notification-master.xml
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/local
+app:
+  remote-service:
+    host: http://localhost:8081
