@@ -1,8 +1,8 @@
 spring:
   application:
     name: statement
-  datasource:
-    url: jdbc:postgresql://localhost:5433/taxdb
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5433/taxdb
     username: postgres
     password: password
   liquibase:

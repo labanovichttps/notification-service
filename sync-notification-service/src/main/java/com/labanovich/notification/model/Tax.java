@@ -1,18 +1,16 @@
 package com.labanovich.notification.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serializable;
 import java.time.Instant;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -21,18 +19,18 @@ import java.time.Instant;
 public class Tax implements Serializable {
 
     @Id
-    @Column(name = "id")
+    @Column("id")
     private Long id;
 
-    @Column(name = "type")
+    @Column("type")
     private String type;
 
-    @Column(name = "name")
+    @Column("name")
     private String name;
 
-    @Column(name = "person_name")
+    @Column("person_name")
     private String personName;
 
-    @Column(name = "create_time")
+    @Column("create_time")
     private Instant createTime;
 }

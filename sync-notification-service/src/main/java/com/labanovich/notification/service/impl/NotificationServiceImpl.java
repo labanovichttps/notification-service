@@ -9,9 +9,7 @@ import com.labanovich.notification.service.NotificationService;
 import com.labanovich.remote.dto.RequestPerson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 @Service
 @RequiredArgsConstructor
@@ -22,23 +20,15 @@ public class NotificationServiceImpl implements NotificationService {
     private final CommunalClient communalClient;
     private final NotificationMapper mapper;
 
+
     @Override
-    public List<NotificationDTO> getNotifications(RequestPerson person) {
-        List<NotificationDTO> taxs = taxRepository.findAll().stream()
-                .filter(tax -> person.getPersonName().equals(tax.getPersonName()))
-                .map(mapper::toNotification)
-                .toList();
-        List<NotificationDTO> fines = fineRepository.findAll().stream()
+    public Flux<NotificationDTO> getNotifications(RequestPerson person) {
+        return taxRepository.findAllByPersonName(person.getPersonName())
+            .map(mapper::toNotification)
+            .concatWith(fineRepository.findAllByPersonName(person.getPersonName())
                 .filter(fine -> person.getPersonName().equals(fine.getPersonName()))
-                .map(mapper::toNotification)
-                .toList();
-        List<NotificationDTO> collect = communalClient.getCommunalFines(person).getFines().stream()
-                .map(mapper::toNotification)
-                .toList();
-        List<NotificationDTO> notifications = new ArrayList<>();
-        notifications.addAll(taxs);
-        notifications.addAll(fines);
-        notifications.addAll(collect);
-        return notifications;
+                .map(mapper::toNotification))
+            .concatWith(communalClient.getCommunalFines(person).flatMapIterable(res -> res)
+                .map(mapper::toNotification));
     }
 }

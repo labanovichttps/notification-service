@@ -1,10 +1,13 @@
 package com.labanovich.notification.client;
 
+import com.labanovich.remote.dto.CommunalFineDTO;
 import com.labanovich.remote.dto.RequestPerson;
-import com.labanovich.remote.dto.ResponseFines;
 import org.springframework.web.bind.annotation.RequestBody;
+import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 public interface CommunalClient {
 
-    ResponseFines getCommunalFines(@RequestBody RequestPerson person);
+    Mono<List<CommunalFineDTO>> getCommunalFines(@RequestBody RequestPerson person);
 }
